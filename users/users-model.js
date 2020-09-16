@@ -12,12 +12,14 @@ function find() {
         .select("id","username", "department").orderBy('id');
 };
 
+
 function findBy(filter) {
-    return db('users')
+    return db("users as u")
         .where(filter)
-        .select("id","username", "department")
-        .orderBy('id');
-};
+        .orderBy("u.id")
+        .join("departments as d", "d.id", "u.department")
+        .select("u.id", "u.username", "u.password", "d.name as department");
+}
 
 function findById(id) {
     return db('users')
